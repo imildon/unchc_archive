@@ -1,0 +1,41 @@
+//Name: Sync CI with Affected CIs
+//Table: Task
+//When: After
+//Insert: True
+//Update: True
+//Condition: current.u_device_desc_ref.changes()
+
+if(previous.u_device_desc_ref){
+   removeCI();
+}
+if(current.u_device_desc_ref){
+   addCI();
+}
+
+function removeCI(){
+   //Get Affected CI records for this task and delete the CI if necessary
+   var rec = new GlideRecord('task_ci');
+   rec.addQuery('task', current.sys_id);
+   rec.addQuery('ci_item', previous.u_device_desc_ref);
+   rec.query();
+   while(rec.next()){
+      //Delete the Affected CI record
+      rec.deleteRecord();
+   }
+}
+
+function addCI(){
+   //Get Affected CI records for this task and add the CI if necessary
+   var rec = new GlideRecord('task_ci');
+   rec.addQuery('task', current.sys_id);
+   rec.addQuery('ci_item', current.u_device_desc_ref);
+   rec.query();
+   if(!rec.next()){
+      //Create a new Affected CI record
+      var ci = new GlideRecord('task_ci');
+      ci.initialize();
+      ci.task = current.sys_id;
+      ci.ci_item = current.u_device_desc_ref;
+      ci.insert();
+   }
+}
