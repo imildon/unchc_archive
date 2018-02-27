@@ -1,0 +1,17 @@
+//Name: Prevent removal/update of primary CI
+//Table: CIs Affected (task_ci)
+//When: Before
+//Update: True
+//Delete: True
+
+//Check the parent task to make sure that the CI is not listed there
+if(current.ci_item && current.operation() == 'delete' && current.ci_item == current.task.cmdb_ci){
+   //Disallow removal
+   gs.addInfoMessage('You cannot remove this CI since it is the primary CI on the associated task.</br>Please change or remove the CI from the task form.');
+   current.setAbortAction(true);
+}
+if(current.ci_item.changes() && current.operation() == 'update' && previous.ci_item == current.task.cmdb_ci){
+   //Disallow modification
+   gs.addInfoMessage('You cannot change this CI since it is the primary CI on the associated task.</br>Please change or remove the CI from the task form.');
+   current.setAbortAction(true);
+}
