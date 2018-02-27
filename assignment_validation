@@ -1,0 +1,6 @@
+var user = gs.getUser().getUserByID(current.assigned_to);
+
+if(!user.isMemberOf(current.assignment_group)) {
+  gs.addInfoMessage("The selected Assigned to person was not a member of the selected Assignment group so we have removed them from the field entry.");
+  current.assigned_to = ''; //this will blank the assigned_to field
+}
