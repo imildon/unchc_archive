@@ -1,0 +1,11 @@
+//To reset a dynamically created/populated choice list, base script action on this following example:
+
+// When a caller is changed, we need to remove previous options and set default options
+function _resetCallerDeviceField(){
+	g_form.clearOptions('u_callers_device'); //clear ALL options
+	g_form.addOption('u_callers_device', 'none', '-None-'); //re-add the options needed
+	g_form.addOption('u_callers_device', 'personal', 'Personal device'); //re-add the options needed
+	g_form.addOption('u_callers_device', 'shared', 'Shared device'); //re-add the options needed
+}
+
+//remember to call the function when/where needed in the script
