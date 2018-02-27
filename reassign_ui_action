@@ -1,0 +1,13 @@
+var assignGrp = current.assignment_group;
+var assignTo = current.assigned_to;
+
+if(assignGrp != '' && assignTo != '') {
+	current.assignment_group = "";
+	current.update();
+	action.setRedirectURL(current);
+} else if(assignGrp != '' && assignTo != '') {
+	current.assignment_group = "";
+	current.assigned_to = "";
+	current.update();
+	action.setRedirectURL(current);
+}
